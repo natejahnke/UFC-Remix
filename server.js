@@ -33,7 +33,7 @@ app.use(express.static("app/public"));
 
 // Starts the server to begin listening
 // =============================================================
-app.listen(PORT, function () {
+app.listen(PORT, function() {
     console.log("App listening on PORT " + PORT);
 });
 
@@ -66,21 +66,24 @@ app.listen(PORT, function () {
 
 // for (var j = 0; j < fighters.length; j++) {
 //     console.log(fighters[j]);
-//     var url = "http://www.ufc.com/fighter/" + fighters[j];
+
+
+
+// var url = "http://www.ufc.com/fighter/536796";
 
 
 
 
 
-//     ufc.getFighter(url, function (data) {
-//         console.log("Name: " + data.fullname + "\nAge: " + data.age + "\nHeight: " + data.height + "\nWeight: " + data.weight + "\nRecord: " + data.record);
-//     });
-// }
+// ufc.getFighter(url, function(data) {
+//     console.log("Name: " + data.fullname + "\nAge: " + data.age + "\nHeight: " + data.height + "\nWeight: " + data.weight + "\nRecord: " + data.record);
+// });
+
 
 
 // console.log(fighters);
 // var mma = require('mma');
-// mma.fighter("", function (data) {
+// mma.fighter("Jon Jones", function(data) {
 //     console.log(data);
 // });
 
@@ -88,11 +91,72 @@ var ufc = new UfcAPI({
     version: '3'
 });
 
+// Stores Id number associated to each fighter on UFC api
 
-ufc.fighters(function (err, res) {
-    for (var i = 0; i < res.body.length; i++) {
-        console.log(chalk.blue("Name: ") + res.body[i].first_name + " " + res.body[i].last_name + " " + chalk.red("Record: ") + res.body[i].wins + "-" + res.body[i].losses + "-" + res.body[i].draws);
-    }
+// loops through all fighter ID number then logs every object for each fighter.
+// for (let j = 0; j < fighterId.length; j++) {
+//     request("http://ufc-data-api.ufc.com/api/v3/us/fighters/" + fighterId[j] + ".json", function(error, response, body) {
+//         if (!error && response.statusCode === 200) {
+//             console.log(JSON.parse(body));
+//         }
+//     })
+// };
 
 
+
+// ufc.fighter536796.json(function(err, res) {
+//     console.log(res.body);
+// });
+
+
+
+// console.log(chalk.blue("Name: ") + res.body[i].first_name + " " + res.body[i].last_name + " " + chalk.red("Record: ") + res.body[i].wins + "-" + res.body[i].losses + "-" + res.body[i].draws);
+
+// console.log("Id: " + res.body[i].id);
+
+// const id = "241895";
+// request("http://ufc-data-api.ufc.com/api/v3/us/fighters/" + id + ".json", function(error, response, body) {
+//     //     //     // If the request is successful (i.e. if the response status code is 200)
+//     if (!error && response.statusCode === 200) {
+//         //         //         // const obj = JSON.parse(body).find(o => o.last_name === lastName & o.first_name === firstName);
+//         //         //         // Parse the body of the site and recover just the imdbRating
+//         //         //         // (Note: The syntax below for parsing isn't obvious. Just spend a few moments dissecting it).
+//         //         //         // console.log(JSON.parse(body)[0]);
+//         //         //         for (var i = 0; i < body.length; i++) {
+//         //         //             fighters.push(JSON.parse(body)[i].first_name + "-" + JSON.parse(body)[i].last_name);
+//         console.log(JSON.parse(body).last_name);
+//         //         //             // console.log(fighters);
+//     }
+
+// });
+
+var ufc = new UfcAPI({
+    version: '3'
 });
+
+const fighterId = [];
+
+function getFighterId() {
+    ufc.fighters(function(err, res) {
+        for (let i = 0; i < res.body.length; i++) {
+            fighterId.push(res.body[i].id);
+        }
+        console.log(fighterId);
+    })
+};
+
+getFighterId();
+
+function allFighters() {
+    for (let j = 0; j < fighterId.length; j++) {
+        request("http://ufc-data-api.ufc.com/api/v3/us/fighters/" + fighterId[j] + ".json", function(error, response, body) {
+            if (!error && response.statusCode === 200) {
+                console.log(JSON.parse(body));
+            }
+        })
+    }
+};
+
+// getFighterId().then(function() {
+//     return allFighters();
+// });
