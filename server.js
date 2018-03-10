@@ -150,7 +150,7 @@ function getFighterId() {
     })
 };
 
-getFighterId();
+// getFighterId();
 
 
 function allFighters() {
@@ -170,15 +170,24 @@ function allFighters() {
 
 var lineReader = require('line-reader');
 
-// lineReader.eachLine('fighterId.txt', function (line, last) {
-//     // do whatever you want with line...
-//     request("http://ufc-data-api.ufc.com/api/v3/us/fighters/" + line + ".json", function (error, response, body) {
-//         if (!error && response.statusCode === 200) {
-//             console.log("Name: " + JSON.parse(body).first_name + " " + JSON.parse(body).last_name + " " + "Record: " + JSON.parse(body).wins + "-" + JSON.parse(body).losses);
-//         }
-//         // console.log(line);
-//         if (last) {
-//             // or check if it's the last one
-//         }
-//     })
-// });
+lineReader.eachLine('fighterId.txt', function (line, last) {
+    // do whatever you want with line...
+    request("http://ufc-data-api.ufc.com/api/v3/us/fighters/" + line + ".json", function (error, response, body) {
+        if (!error && response.statusCode === 200) {
+            // console.log("Name: " + JSON.parse(body).first_name + " " + JSON.parse(body).last_name + " " + "Record: " + JSON.parse(body).wins + "-" + JSON.parse(body).losses);
+            console.log(JSON.parse(body).thumbnail);
+        }
+        // console.log(line);
+        if (last) {
+            // or check if it's the last one
+        }
+    })
+});
+
+const download = require('image-downloader');
+
+// Download to a directory and save with the original filename
+const options = {
+    url: 'http://someurl.com/image.jpg',
+    dest: '/path/to/dest' // Save to /path/to/dest/image.jpg
+};
