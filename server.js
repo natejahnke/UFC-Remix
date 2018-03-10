@@ -8,6 +8,8 @@ var fightMatrix = require("fight-matrix");
 var mma = require("mma");
 var UfcAPI = require('ufc-api');
 const chalk = require('chalk');
+var fs = require("fs");
+
 
 
 
@@ -33,7 +35,7 @@ app.use(express.static("app/public"));
 
 // Starts the server to begin listening
 // =============================================================
-app.listen(PORT, function() {
+app.listen(PORT, function () {
     console.log("App listening on PORT " + PORT);
 });
 
@@ -87,9 +89,6 @@ app.listen(PORT, function() {
 //     console.log(data);
 // });
 
-var ufc = new UfcAPI({
-    version: '3'
-});
 
 // Stores Id number associated to each fighter on UFC api
 
@@ -137,19 +136,26 @@ var ufc = new UfcAPI({
 const fighterId = [];
 
 function getFighterId() {
-    ufc.fighters(function(err, res) {
+    ufc.fighters(function (err, res) {
         for (let i = 0; i < res.body.length; i++) {
-            fighterId.push(res.body[i].id);
+            // fighterId.push(res.body[i].id);
+
+            fs.appendFile("fighterId.txt", res.body[i].id + "\n", function (err) {
+                if (err) {
+                    return console.log(err);
+                }
+                console.log("movies.txt was updated!");
+            });
         }
-        console.log(fighterId);
     })
 };
 
 getFighterId();
 
+
 function allFighters() {
     for (let j = 0; j < fighterId.length; j++) {
-        request("http://ufc-data-api.ufc.com/api/v3/us/fighters/" + fighterId[j] + ".json", function(error, response, body) {
+        request("http://ufc-data-api.ufc.com/api/v3/us/fighters/" + fighterId[j] + ".json", function (error, response, body) {
             if (!error && response.statusCode === 200) {
                 console.log(JSON.parse(body));
             }
@@ -157,6 +163,22 @@ function allFighters() {
     }
 };
 
+
 // getFighterId().then(function() {
 //     return allFighters();
+// });
+
+var lineReader = require('line-reader');
+
+// lineReader.eachLine('fighterId.txt', function (line, last) {
+//     // do whatever you want with line...
+//     request("http://ufc-data-api.ufc.com/api/v3/us/fighters/" + line + ".json", function (error, response, body) {
+//         if (!error && response.statusCode === 200) {
+//             console.log("Name: " + JSON.parse(body).first_name + " " + JSON.parse(body).last_name + " " + "Record: " + JSON.parse(body).wins + "-" + JSON.parse(body).losses);
+//         }
+//         // console.log(line);
+//         if (last) {
+//             // or check if it's the last one
+//         }
+//     })
 // });
