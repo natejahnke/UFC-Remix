@@ -9,7 +9,7 @@ var mma = require("mma");
 var UfcAPI = require('ufc-api');
 const chalk = require('chalk');
 var fs = require("fs");
-
+var axios = require("axios");
 
 
 
@@ -133,7 +133,7 @@ var ufc = new UfcAPI({
     version: '3'
 });
 
-const fighterId = [];
+// const fighterId = [];
 
 function getFighterId() {
     ufc.fighters(function (err, res) {
@@ -153,41 +153,65 @@ function getFighterId() {
 // getFighterId();
 
 
-function allFighters() {
-    for (let j = 0; j < fighterId.length; j++) {
-        request("http://ufc-data-api.ufc.com/api/v3/us/fighters/" + fighterId[j] + ".json", function (error, response, body) {
-            if (!error && response.statusCode === 200) {
-                console.log(JSON.parse(body));
-            }
-        })
-    }
-};
+// function allFighters() {
+//     for (let j = 0; j < fighterId.length; j++) {
+//         axios.get("http://ufc-data-api.ufc.com/api/v3/us/fighters/" + fighterId[j] + ".json", function (error, response, body) {
+//             if (!error && response.statusCode === 200) {
+//                 console.log(JSON.parse(body));
+//             }
+//         })
+//     }
+// };
+
+// allFighters();
 
 
 // getFighterId().then(function() {
 //     return allFighters();
 // });
 
-var lineReader = require('line-reader');
+// var lineReader = require('line-reader');
 
-lineReader.eachLine('fighterId.txt', function (line, last) {
-    // do whatever you want with line...
-    request("http://ufc-data-api.ufc.com/api/v3/us/fighters/" + line + ".json", function (error, response, body) {
-        if (!error && response.statusCode === 200) {
-            // console.log("Name: " + JSON.parse(body).first_name + " " + JSON.parse(body).last_name + " " + "Record: " + JSON.parse(body).wins + "-" + JSON.parse(body).losses);
-            console.log(JSON.parse(body).thumbnail);
-        }
-        // console.log(line);
-        if (last) {
-            // or check if it's the last one
-        }
+// lineReader.eachLine('fighterId.txt', function (line, last) {
+//     // do whatever you want with line...
+//     request("http://ufc-data-api.ufc.com/api/v3/us/fighters/" + line + ".json", function (error, response, body) {
+//         if (!error && response.statusCode === 200) {
+//             // console.log("Name: " + JSON.parse(body).first_name + " " + JSON.parse(body).last_name + " " + "Record: " + JSON.parse(body).wins + "-" + JSON.parse(body).losses);
+//             console.log(JSON.parse(body).thumbnail);
+//         }
+//         // console.log(line);
+//         if (last) {
+//             // or check if it's the last one
+//         }
+//     })
+// });
+
+// const download = require('image-downloader');
+
+// // Download to a directory and save with the original filename
+// const options = {
+//     url: 'http://someurl.com/image.jpg',
+//     dest: '/path/to/dest' // Save to /path/to/dest/image.jpg
+// };
+
+let fighterId = [];
+
+axios.get("http://ufc-data-api.ufc.com/api/v3/us/fighters/").then(function (response) {
+    // console.log(JSON.parse(response));
+    response.data.forEach(function (fighters) {
+        // console.log(fighters.id);
+        // let fighterId = [];
+        fighterId.push(fighters.id);
+
     })
+    // console.log(response.forEach(data[0].id));
+    // console.log(fighterId);
+    fighterId.forEach(function (allFighters) {
+        axios.get("http://ufc-data-api.ufc.com/api/v3/us/fighters/" + fighterId[j] + ".json").then(function (response) {
+            console.log(response);
+        })
+    })
+
+
+
 });
-
-const download = require('image-downloader');
-
-// Download to a directory and save with the original filename
-const options = {
-    url: 'http://someurl.com/image.jpg',
-    dest: '/path/to/dest' // Save to /path/to/dest/image.jpg
-};
