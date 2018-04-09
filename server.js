@@ -87,3 +87,23 @@ axios.get("http://ufc-data-api.ufc.com/api/v3/us/fighters/").then(function(id) {
         })
     })
 });
+
+axios.get("http://ufc-data-api.ufc.com/api/v3/us/events").then(function(result) {
+    result.data.forEach(function(events) {
+        db.Event.create({
+            id: events.id,
+            event_date: events.event_date,
+            base_title: events.base_title,
+            title_tag_line: events.title_tag_line,
+            feature_image: events.feature_image,
+            secondary_feature_image: events.secondary_feature_image,
+            event_time_text: events.event_time_text,
+            event_time_zone_text: events.event_time_zone_text,
+            subtitle: events.subtitle,
+            arena: events.arena,
+            location: events.location,
+            main_event_fighter1_id: events.main_event_fighter1_id,
+            main_event_fighter2_id: events.main_event_fighter2_id
+        })
+    })
+});
