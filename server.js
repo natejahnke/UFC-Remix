@@ -66,7 +66,7 @@ axios.get("http://ufc-data-api.ufc.com/api/v3/us/fighters/").then(function(id) {
                 submission_wins: fightData.submission_wins,
                 decision_wins: fightData.decision_wins,
                 rank: fightData.rank,
-                date_of_birth: fightData.date_of_birth,
+                date_of_birth: fightData.dob,
                 height: fightData.height,
                 weight: fightData.weight,
                 weight_class: fightData.weight_class,
