@@ -12,6 +12,8 @@
     "image-downloader": "^3.3.0",
     "line-reader": "^0.4.0",
     "mma": "^0.2.0",
+    "mongoose": "^5.0.13",
+    "morgan": "^1.9.0",
     "regex": "^0.1.1",
     "request": "^2.83.0",
     "ufc": "^0.1.4",
