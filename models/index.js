@@ -2,5 +2,6 @@
 
 module.exports = {
     Fighter: require("./Fighter"),
-    Event: require("./Event")
+    Event: require("./Event"),
+    Fights: require("./Fights")
 };

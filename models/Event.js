@@ -7,7 +7,7 @@ var Schema = mongoose.Schema;
 // This is similar to a Sequelize model
 var EventSchema = new Schema({
     // `title` is of type String
-    id: String,
+    event_id: String,
     // `body` is of type String
     event_date: Date,
     base_title: String,
@@ -21,9 +21,6 @@ var EventSchema = new Schema({
     location: String,
     main_event_fighter1_id: Number,
     main_event_fighter2_id: Number,
-
-
-
 });
 
 // This creates our model from the above schema, using mongoose's model method
